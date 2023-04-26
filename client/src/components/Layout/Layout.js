@@ -1,9 +1,16 @@
 import React from 'react'
+import Hearder from './Hearder'
+import Foorter from './Foorter'
 
-const Layout = () => {
+const Layout = ({children}) => {
   return (
     <div>
-        <h1>Layout </h1>
+        <Hearder/>
+          <main style={{ minHeight:'80vh' }}>
+            {children}
+          </main>
+        <Foorter/>  
+            
     </div>
   )
 }
