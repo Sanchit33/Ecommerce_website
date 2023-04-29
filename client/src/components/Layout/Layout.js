@@ -1,18 +1,27 @@
-import React from 'react'
-import Hearder from './Hearder'
-import Foorter from './Foorter'
+import React from "react";
+import Header from "./Header";
+import Foorter from "./Foorter";
+import { Helmet } from "react-helmet";
+import 'react-toastify/dist/ReactToastify.css';
+import { Toaster } from 'react-hot-toast';
 
-const Layout = ({children}) => {
+const Layout = ({ children, title, description, keywords, author }) => {
   return (
     <div>
-        <Hearder/>
-          <main style={{ minHeight:'80vh' }}>
-            {children}
-          </main>
-        <Foorter/>  
-            
+      <Helmet>
+        <meta charSet="utf-8" />
+        <meta name="description" content={description} />
+        <meta name="keywords" content={keywords} />
+        <meta name="author" content={author} />
+        <title>{title}</title>
+      </Helmet>
+      <Header />
+      <main style={{ minHeight: "80vh" }}>
+        <Toaster />
+        {children}</main>
+      <Foorter />
     </div>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;
