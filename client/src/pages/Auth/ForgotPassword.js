@@ -1,35 +1,28 @@
-import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import "../../styles/AuthStyle.css";
-import { useAuth } from "../../components/context/auth";
 
-const Login = () => {
+
+const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [auth, setAuth] = useAuth();
+  const [newPassword, setNewPassword] = useState("");
+  const [answer, setAnswer] = useState("");
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        `${process.env.REACT_APP_API}/api/v1/auth/login`,
-        { email, password }
+        `${process.env.REACT_APP_API}/api/v1/auth/forgot-password`,
+        { email, newPassword, answer }
       );
       if (res && res.data.success) {
         toast.success(res.data && res.data.message);
-        setAuth({
-          ...auth,
-          user: res.data.user,
-          token: res.data.token,
-        });
-        localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate(location.state || "/");
+        navigate("/login");
       } else {
         toast.error(res.data.message);
       }
@@ -38,12 +31,11 @@ const Login = () => {
       toast.error("Something Went Wrong");
     }
   };
-
   return (
-    <Layout title="User Registration">
+    <Layout title={"Forgot Password"}>
       <div className="form-container" style={{ minHeight: "90vh" }}>
         <form onSubmit={handleSubmit}>
-          <h1 className="title">Login</h1>
+          <h1 className="title">RESET PASSWORD</h1>
           <div className="mb-3">
             <label htmlFor="exampleInputName" className="form-label">
               Email
@@ -59,32 +51,35 @@ const Login = () => {
             />
           </div>
           <div className="mb-3">
+            <label htmlFor="exampleInputName" className="form-label">
+              Answer
+            </label>
+            <input
+              type="text"
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              className="form-control"
+              id="exampleInputEmail1"
+              placeholder="Enter Your Favorite Dish"
+              required
+            />
+          </div>
+          <div className="mb-3">
             <label htmlFor="exampleInputPassword1" className="form-label">
-              Password
+              New Password
             </label>
             <input
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               className="form-control"
               id="exampleInputPassword1"
               placeholder="Enter Your Password"
               required
             />
           </div>
-          <div className="mb-3">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => {
-                navigate("/forgot-password");
-              }}
-            >
-              Forgot Password
-            </button>
-          </div>
           <button type="submit" className="btn btn-primary">
-            Login
+            Reset
           </button>
         </form>
       </div>
@@ -92,4 +87,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;
