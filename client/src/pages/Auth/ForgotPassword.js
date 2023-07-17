@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate} from "react-router-dom";
-import "../../styles/AuthStyle.css";
+import "../../styles/AuthStyles.css";
 
 
 const ForgotPassword = () => {
